@@ -1,4 +1,4 @@
-const { expect, assert } = require("chai");
+const { expect } = require("chai");
 const { BigNumber } = require("ethers");
 const { parseEther } = require("ethers/lib/utils");
 const { ethers } = require("hardhat");
@@ -26,7 +26,10 @@ describe("Attack", function () {
 
     // Check that at this point the GoodContract's balance is 10 ETH
     let balanceETH = await ethers.provider.getBalance(goodContract.address);
-    assert.equal(balanceETH, parseEther("10"));
+    console.log(balanceETH)
+    let parsedValue = parseEther("10")
+    console.log(parsedValue)
+    expect(balanceETH).to.equal(parsedValue);
 
     // Attacker calls the `attack` function on BadContract
     // and sends 1 ETH
@@ -41,6 +44,6 @@ describe("Attack", function () {
 
     // Balance of BadContract is now 11 ETH (10 ETH stolen + 1 ETH from attacker)
     balanceETH = await ethers.provider.getBalance(badContract.address);
-    assert.equal(balanceETH, parseEther("11"));
+    expect(balanceETH).to.equal(parseEther("11"));
   });
 });
